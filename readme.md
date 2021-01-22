@@ -73,7 +73,7 @@ We need to add a `build` and `start` command to our `package.json` in place of t
 ```json
     "test": "echo \"No test script\"",
     "build": "webpack",
-    "start": "webpack-dev-server --open"
+    "start": "webpack serve",
 ```
 
 ### Add Babel & Presets to `package.json`
@@ -370,7 +370,7 @@ Create our ESLint configuration file in the root directory of our project:
   },
   "settings": {
     "react": {
-      "version": "16.13"
+      "version": "17.0"
     }
   }
 }
