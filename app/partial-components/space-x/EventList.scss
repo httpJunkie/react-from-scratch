@@ -1,0 +1,14 @@
+ul.event-list {
+  padding: 0;
+  > li {
+    list-style: none;
+    line-height: 2em;
+    font-size: 17px;
+  }
+}
+
+ul.event-list > li {
+  list-style: none;
+  line-height: 2em;
+  font-size: 17px;
+}
