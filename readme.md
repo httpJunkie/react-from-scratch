@@ -1,12 +1,12 @@
-# Let’s Build a React App From Scratch (Using Webpack, Babel & ES Lint)
+# Build a React App From Scratch (Using Webpack, Babel & ES Lint)
 
-This repo contains the finished state of the "React From Scratch" application from our Workshop. This workshop walks through building a basic React app using a custom Webpack and Babel configuration with ESLint and teaches the basics around component composition, layout and styling with SCSS, and utilizes Context API for state management in React.
+This repo contains the finished state of the "React From Scratch" application from our Workshop. Walk through building a basic React app using a custom Webpack 5 and Babel configuration with ESLint and teaches the basics around component creation, composition, layout, styling with SCSS, and utilizing Context API for state management in React.
 
 This document serves as a step-by-step guide for the workshop that can be used to easily follow along or as a reference if you want to walk through at your own pace at a later time.
 
-## “Hello React” with Webpack & Babel
+## Getting to "Hello React" with Webpack & Babel
 
-We'll get started building our React toolchain.
+Let's build up our React toolchain.
 
 ### Create Project Folders and Initialize npm
 
@@ -37,7 +37,7 @@ We now have a `package.json` and `app` directory, let's start by creating a few 
 - `.gitignore`
 - `webpack.config.js`
 
-And four more inside the `app` directory:
+Then create four more files inside the `app` directory:
 
 - `index.js`
 - `index.html`
@@ -48,11 +48,11 @@ And four more inside the `app` directory:
 
 I created three separate commands for installing our developer dependencies by category (Webpack, Babel, loaders). Let's install them!
 
-- `npm i --save-dev webpack webpack-cli webpack-dev-server html-webpack-plugin@5.0.0-alpha.10`
+- `npm i --save-dev webpack webpack-cli webpack-dev-server html-webpack-plugin@5.0.0-alpha.17`
 - `npm i --save-dev @babel/core @babel/preset-env @babel/preset-react`
 - `npm i --save-dev babel-loader node-sass file-loader sass-loader style-loader css-loader url-loader`
 
-If you would like to learn more about Webpack and Babel, I suggest a podcast episode [Syntax.fm #004 - JavaScript Tooling](https://syntax.fm/show/004/javascript-tooling) which does a great job of describing why we need Webpack and Babel together for most React projects.
+If you would like to learn more about Webpack and Babel, I suggest a podcast episode [Syntax.fm #004 - JavaScript Tooling](https://syntax.fm/show/004/javascript-tooling) which does a great job of describing why we need Webpack and Babel together for most React projects, as well to visit the links below for instruction on the latest Webpack 5 configuration in JavaScript + React.
 
 #### Babel and JavaScript + React Resource
 
@@ -64,8 +64,6 @@ If you would like to learn more about Webpack and Babel, I suggest a podcast epi
 
 To get more information on the `html-webpack-plugin` you can visit [webpack.js.org](https://webpack.js.org/plugins/html-webpack-plugin/) and [using html-webpack-plugin to generate index.html](https://medium.com/a-beginners-guide-for-webpack-2/index-html-using-html-webpack-plugin-85eabdb73474).
 
-We have updated this project to use Webpack 5 and if you want more information on Webpack 5 you can check out Ryan H Lewis's video on [Top 5 Changes in Webpack 5](https://www.youtube.com/watch?v=X1nxTjVDYdQ).
-
 ### Create Build/Start Scripts to Run Webpack & Dev-server
 
 We need to add a `build` and `start` command to our `package.json` in place of the existing test script:
@@ -73,7 +71,7 @@ We need to add a `build` and `start` command to our `package.json` in place of t
 ```json
     "test": "echo \"No test script\"",
     "build": "webpack",
-    "start": "webpack serve",
+    "start": "webpack serve"
 ```
 
 ### Add Babel & Presets to `package.json`
@@ -103,9 +101,11 @@ Even in our most simple “Hello React” example, we need JSX, so we need to ad
 
 > 📘 Other Babel Config Options
 >  
-> Using `package.json` is just [one option for configuring Babel](https://babeljs.io/docs/en/configuration#packagejson) and in my opinion, the easiest to use, however; you could also go the `babel.config.json` or `babelrc.json` route. Both are explained on the same documentation link above!
+> Using `package.json` is just [one option for configuring Babel](https://babeljs.io/docs/en/configuration#packagejson) and in my opinion, the easiest to use, however; you could also go the `.babelrc` route. Both are explained on the same documentation link above!
 
 ### Production Dependencies for “Hello React”
+
+We need to install React 17 and Normalize for this project.
 
 Articles on Normalize('normalize.css'):
 
@@ -153,6 +153,8 @@ ReactDOM.render(<App />, document.getElementById('root'))
 #### `App.js` (Initial Component)
 
 ```jsx
+import React from 'react'
+import 'normalize.css'
 import './App.scss'
 
 import reactLogo from './assets/images/react-transparent.png';
@@ -189,7 +191,7 @@ img {
 }
 ```
 
-#### `.Gitignore` (Assets Not Tracked by Git)
+#### `.gitignore` (Assets Not Tracked by Git)
 
 For more information on creating a `.gitignore` file and why we need them, check out an article on [ignoring files](https://help.github.com/articles/ignoring-files) for more info.
 
@@ -280,11 +282,15 @@ module.exports = {
 }
 ```
 
+Finally, let's add a directory inside `app` called `assets` and another directory inside of it named `images` and you can drop the file: [React Logo](https://github.com/httpJunkie/react-from-scratch/blob/master/app/assets/images/react-transparent.png) inside.
+
 With these files in place, run the project for the first time.
 
 ```bash
 npm start
 ```
+
+And visit: http://localhost:8080
 
 ### Init, Stage and Commit Our Files
 
