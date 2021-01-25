@@ -270,6 +270,7 @@ module.exports = {
     filename: "index_bundle.js",
     publicPath: "/"
   },
+  devtool: "source-map", // https://survivejs.com/webpack/building/source-maps/#inline-source-map-types
   devServer: {
     historyApiFallback: true, // https://jaxenter.com/build-reactjs-history-api-fallback-153122.html
     contentBase: path.resolve(__dirname, './dist'),
@@ -310,7 +311,7 @@ We should notice our `.gitignore` working as it will no longer be tracking our `
 
 #### Create an Empty Repository on Github
 
-We need an empty repository on GitHub to push this project to. Let's stage, commit and push to a new repo:
+Go to you're GiHub Repository and create a repo named: `space-x-app` to push this project to. Let's stage, commit and push to a new repo:
 
 ```bash
 git add .
@@ -321,7 +322,7 @@ git commit -m "Hello React (Webpack, Babel, and React)"
 ```
 
 ```bash
-git remote add origin https://github.com/httpJunkie/react-from-scratch.git
+git remote add origin https://github.com/[YourGithubAccount]/space-x-app.git
 ```
 
 ```bash
@@ -332,8 +333,7 @@ git push -u origin master
 
 We created our own [Webpack](https://webpack.js.org/), [Babel](https://babeljs.io/) & [React]([https://reactjs.org](https://reactjs.org/)) build ourselves, without using something like Create React App ([CRA](https://github.com/facebook/create-react-app)) to and because of this we are smarter about our application and have a better understanding of how a minimal React application works under the hood and how to build and run that application from a basic standpoint.
 
-We will tackle linting in the next section.  
-second
+We will tackle linting in the next section.
 
 ## Getting Started with ESLint
 
@@ -347,7 +347,7 @@ npm i --save-dev eslint babel-eslint eslint-watch eslint-plugin-react
 
 ## Add Linting for ES6, JSX and React Hooks
 
-Create our ESLint configuration file in the root directory of our project:
+Create an ESLint configuration file named `.eslintrc` in the root directory of your project:
 
 ### `.eslintrc` (ESLint Config)
 
@@ -426,8 +426,10 @@ npm i --save-dev eslint-plugin-react-hooks
 First we will add `react-hooks` to the plugin section the `.eslintrc` file:
 
 ```json
+  "plugins": [
     "react",
     "react-hooks"
+  ],
 ```
 
 then, we will add the rule to the rules section the `.eslintrc` file:
@@ -460,7 +462,7 @@ Discard our changes in `App.js` Our Hooks linting is working.
 Let's use a rule that will work with our `react` plugin!
 In the [JSX-specific-rules section of their documentation]((https://github.com/yannickcr/eslint-plugin-react#jsx-specific-rules)) we can see a rule for no duplicate props.
 
-Add the following to the `.eslintrc` file's rule's section:
+Add the following rule to the top of the `.eslintrc` file's rules section:
 
 ```json
     "react/jsx-no-duplicate-props": "error",
@@ -625,7 +627,6 @@ export default Hamburger
   position: relative;
 }
 
-/*************** hamburger menu 2 *****************/
 .bars-container2 {
   position: relative;
 }
@@ -804,6 +805,8 @@ $transition-style: ease;
 ```jsx
 import React from 'react'
 
+import Switch from '../ui-components/switch/Switch'
+
 const Foot = () => {
   return (
     <>
@@ -961,13 +964,15 @@ export default Topnav
 .app-container .topnav ul > li.menu { cursor: pointer; cursor: hand; }
 ```
 
+Notice how the `Topnav.js` and `Sidenav.js` files below are nearly identical. They both simply import the menu (component reuse). Their styles (SCSS) will make them different laying out horizontally (Topnav) vs vertically (Sidenav).
+
 #### `Events.js` (View Component)
 
 ```jsx
 import React, { useEffect } from 'react'
 
 const Events = () => {
-  useEffect(() => {document.title = `SpaceX Historical Events`})
+  useEffect(() => { document.title = `SpaceX Historical Events` })
 
   return (
     <div className='view-events'>
@@ -978,8 +983,6 @@ const Events = () => {
 
 export default Events
 ```
-
-Notice how the `Topnav.js` and `Sidenav.js` files below are nearly identical. They both simply import the menu (component reuse). Their styles (SCSS) will make them different laying out horizontally (Topnav) vs vertically (Sidenav).
 
 #### `Home.js` (View Component)
 
@@ -1073,10 +1076,6 @@ At this point our app is working, we have the classes and styles for our importe
 #### `App.scss` (Stylesheet)
 
 ```scss
-// body {
-//   background-color: black;
-// }
-
 .app-container {
   display: flex;
   height: 100vh;
@@ -1210,7 +1209,7 @@ Now, `isMedium` will be `true` when our browser is at least 600 pixels or greate
 
 We'll use that `true` or `false` value to add a `'small'` or `'medium'` class to our `app-container` div inside `Frame.js`.
 
-let's import `useMediaPredicate` into `Frame.js` just below our `react-router` import:
+In `Frame.js`: let's import `useMediaPredicate` just below our `react-router` import:
 
 ```js
 import { useMediaPredicate } from 'react-media-hook'
@@ -1233,13 +1232,9 @@ To see this working, run the project and inspect the `app-container` div with F1
 
 ![site preview](https://imgur.com/OE4tGa3.gif)
 
-With that in place, let's hide the top navigation links and show the menu button on small and visa versa on medium. To do this, replace the last line of `Topnav.scss`:
+With that in place, let's hide the top navigation links and show the menu button on small and visa versa on medium.
 
-```scss
-.topnav ul > li.menu { cursor: pointer; cursor: hand; }
-```
-
-With the following:
+In `Topnav.scss`: add with the following code:
 
 ```scss
 .app-container.small .topnav ul > li.link { display: none; }
@@ -1249,7 +1244,7 @@ With the following:
 .app-container.medium .topnav ul > li.menu { display: none; }
 ```
 
-Next, append the following code to the end of the `Sidenav.scss` file:
+In `Sidenav.scss`: add with the following code:
 
 ```scss
 .app-container.small .sidenav { display: auto; }
@@ -1264,7 +1259,11 @@ Although it's beyond the scope of this course to cover React Hooks, which we wil
 
 ### Adding Context to Our App
 
-Create a file that will house our Context Provider by creating a folder called `context` inside the `app` directory. Then, inside create the file: `AppContext.js` using the following code:
+Create a file that will house our Context Provider.
+
+Create a folder named `context` inside `app` directory. Then, inside `app`, create a file: `AppContext.js`.
+
+In `AppContext.js`: add the following code:
 
 ```js
 import React, { useState, createContext } from 'react'
@@ -1286,25 +1285,25 @@ export { AppContext, AppProvider }
 
 Here we import `useState` and `createContext`. Next, we create a context instance named `AppContext`. We then set up an `AppProvider` using the render props pattern. We declare a Hook with `useState`, pass in an object with properties, defaults and methods. In this case, the object has a property named `navOpen`, and a method called `toggleSidenav()` which can be used to update the value of the `navOpen` property.
 
-Our `AppProvider` works by returning an `<AppContext.Provider>` component with access to our `appData` which we passed in. It receives that state as props, and gives its children access to it.
+Our `AppProvider` works by returning an `<AppContext.Provider>` component with access to our `appData` giving all children of our `<AppProvider>` that we will place on the `App.js` page access to our new global state. `<AppContext.Provider>` receives state as a prop, and gives its children access to it.
 
 ### Provide Context to Our Entire App
 
 Next, we need to have access to this state in many places in our app. We want any component to be able to have access to its data, so we need to place the `<AppProvider>` component at the highest level in our component tree. To wrap all components, we must place it in the `App.js` file.
 
-Add the following import to the `App.js` file:
+In `App.js`: add the following import:
 
 ```jsx
 import { AppProvider } from './context/AppContext'
 ```
 
-And replace the line:
+And replace:
 
 ```js
 const App = () => <Frame />
 ```
 
-With the following:
+With:
 
 ```jsx
 const App = () => {
@@ -1324,12 +1323,10 @@ We want to import our `AppContext` into our `Menu.js` file and our `Sidenav.js` 
 
 #### `Menu.js`
 
-Import `useContext` and the `AppContext` from the provider:
+In `Menu.js`: import `useContext` and `AppContext`:
 
 ```jsx
 import React, { useContext } from 'react'
-import { NavLink } from 'react-router-dom'
-
 import { AppContext } from '../context/AppContext'
 ```
 
@@ -1354,20 +1351,20 @@ Replace the last `<li></li>` with:
 
 #### `Sidenav.js`
 
-Import `useContext` and the `AppContext` from the provider:
+In `Sidenav.js`: import `useContext` and the `AppContext` from the provider:
 
 ```jsx
 import React, { useContext } from 'react'
 import { AppContext } from '../context/AppContext'
 ```
 
-Just above the return statement, we will add our context with a call to `useContext`:
+Above the return statement, add our context with a call to `useContext`:
 
 ```jsx
 const context = useContext(AppContext)
 ```
 
-Last, we alter the className of the parent div with `'show'` or `'hide'` based on the value of the `context.navOpen`:
+Alter the className of the parent div with `'show'` or `'hide'`, based on the value of the `context.navOpen`:
 
 ```jsx
     <div className={`sidenav ${context.navOpen ? 'show' : 'hide'}`}>
@@ -1377,7 +1374,7 @@ Last, we alter the className of the parent div with `'show'` or `'hide'` based o
 
 #### `App.scss`
 
-We also need to update a section of `App.scss`. Look for a comment: `/* Side navigation */` and replace it and its following style with:
+In `App.scss`: look for a comment: `/* Side navigation */` and replace it with:
 
 ```scss
 /* Side Navigation */
@@ -1403,7 +1400,7 @@ We need to think about our custom styles like background and text color, how the
 
 ### Creating Our Custom Styles
 
-We already have a light theme going on, so we will start there.
+We already have a light theme going on, so we'll start there.
 
 Eventually, this class will be bound to our `themeMode` property in our global state.
 
@@ -1413,7 +1410,7 @@ Eventually, this class will be bound to our `themeMode` property in our global s
 
 With this class, we can now create a nested SCSS selector to encapsulate the light vs dark theme through namespacing.
 
-Add the following code to the end of the `App.scss` with:
+In `App.scss`: add the following code:
 
 ```scss
 /* Light Theme */
@@ -1440,7 +1437,7 @@ Add the following code to the end of the `App.scss` with:
 }
 ```
 
-Understand how this works, and how namespacing is being applied. We moved some properties from the old code into this new specific SCSS selector matching: `app-container.light`.
+Understand how this works, and how namespacing is being applied. We moved theme related code from `section a` selector into a selector of the same name nested (Sass Style) with a `app-container.light` to scope it to the `light` theme.
 
 The only modification I did to the originall was that I moved the following properties:
 
@@ -1464,13 +1461,13 @@ Into a new selector giving it more specificity.
 }
 ```
 
-Now styles like size and position that need to be consistent over both themes are all at the root level of the document. Colors and text, things that are specific to each theme are extracted into the namespace of `light`.
+Now styles like size and position that need to be consistent over both themes are at the root level of the document. Colors and text and things that are specific to each theme are extracted into the namespace `.app-container.light`.
 
 For changing the theme from light to dark in the UI we will use a `Switch` component.
 
 ### Updating the Foot Component
 
-We need to update the `Foot.js` file to import our `AppContext`, `useContext` and `handleSwitch` function to change the theme when the Switch is clicked on:
+In `Foot.js`: import our `AppContext`, `useContext` and `handleSwitch`:
 
 ```jsx
 import React, { useContext } from 'react'
@@ -1501,11 +1498,9 @@ const Foot = () => {
 export default Foot
 ```
 
-Great, our `Switch` is on the page.
+This `handleSwitch()` function will update the global state of `themeMode` using a ternary that flips either `light` to `dark` or visa versa.
 
-![](https://imgur.com/PBKfu9A.gif)
-
-What we now need to do is wire this switch up to toggle the theme and we are doing that with an `onChange()`.
+We have wired up our switch to toggle the theme with an `onChange()`.
 
 ### Wiring up Our Switch to Work with Our Context
 
@@ -1526,7 +1521,9 @@ We will take advantage of a media query named `refers-color-scheme`. Normally yo
 
 We just used `react-media-hook` to check a minimum width on the browser, and everytime it changes, we can react to those changes in our component and display the correct breakpoint:
 
-We can do the same thing for `prefers-color-scheme`, but first we need to import `useMediaPredicate` into our `AppContext.js` file:
+We can do the same thing for `prefers-color-scheme`
+
+In `AppContext.js`: import `useMediaPredicate`:
 
 ```js
 import React, { useState, useEffect, createContext } from 'react'
@@ -1575,14 +1572,16 @@ We can add `useEffect` just below our AppProvider's `useState` hook and call `se
 
 ### Adding a Theme CSS Class to `app-container`
 
-Now that the `Switch` works and changes the `context.themeMode` when we click it, we need our `app-container` div inside of `Frame.js` to reflect this class. First we will import `useContext` and `AppContext` into the `Frame.js` page:
+Now that the `Switch` works and changes the `context.themeMode` when we click it, we need our `app-container` div inside of `Frame.js` to reflect this class. 
+
+In `Frame.js`: import `useContext` and `AppContext`:
 
 ```js
 import React, { useContext, lazy, Suspense } from 'react'
 import { AppContext } from './context/AppContext'
 ```
 
-Next we need to create a const named `context` at the top level of our `Frame` component, just above our `isMedium` constant:
+Create a const named `context` at the top level of our `Frame` component, just above `const isMedium = useMediaPredicate(...)`:
 
 ```js
 const context = useContext(AppContext)
@@ -1604,7 +1603,9 @@ Although our `Switch` is functional, we need to add the dark theme and have the 
 
 We will import these files into our `App.scss` file and nest them inside of an SCSS selector and this will scope certain styles to the CSS namespace of `app-container.light`.
 
-We need to create another nested SCSS set of styles for the dark theme. It will have a comment above it, just as the light mode version, let's paste this one right under the light theme code in the `App.scss` file:
+We need to create another nested SCSS set of styles for the dark theme. It will have a comment above it, just as the light mode version.
+
+In `App.scss`: add the following code:
 
 ```scss
 /* Dark Theme */
@@ -1631,7 +1632,7 @@ We need to create another nested SCSS set of styles for the dark theme. It will 
 }
 ```
 
-I have simply copy-and-pasted the Light theme `.app-container.light` selector and renamed it to `.app-container.dark`, reset all of the property values just as we did in the light theme.
+Similar to the light theme code in `.app-container.light` the dark theme swaps the light backgorund with a dark and the dark text with light.
 
 ### Sidenav and Topnav Theming
 
@@ -1639,7 +1640,7 @@ We have some CSS in two other files will also need some light and dark treatment
 
 #### Add Dark Theme to `Sidenav`
 
-From the `Sidenav.scss` we will replace the following code:
+In `Sidenav.scss`: replace:
 
 ```scss
 .sidenav {
@@ -1651,7 +1652,7 @@ From the `Sidenav.scss` we will replace the following code:
 }
 ```
 
-And replace with:
+with:
 
 ```scss
 /* Light Theme */
@@ -1679,7 +1680,7 @@ And replace with:
 
 #### Add Dark Theme to `Topnav`
 
-From the `Topnav.scss` we appended the following styles to the end of the file:
+In `Topnav.scss`: add the following code:
 
 ```scss
 /* Light Theme */
@@ -1707,7 +1708,9 @@ This concludes our section on creating a theme and making it toggle from light t
 
 SpaceX API: [r/SpaceX API Docs](https://docs.spacexdata.com/?version=latest)
 
-As you noticed we have a SpaceX theme and we are going to use the SpaceX public API to build some stuff. My idea for the home page is to show the next SpaceX launch, luckily they have a route specifically for this. I'd like to simply render a component on the page that I can pass an individual `flight_number={7}` to and get any of the SpaceX Launches or to be able to pass a prop like `next={true}`.
+With all of the app specific code out of the way we can finally get to the purpose of our app and start working on the Space-X events related code.
+
+We are going to use the SpaceX public API. My idea for the home page is to show the next SpaceX launch. We have a route specifically for this. I'd like to simply render a component on the page that I can pass an individual `flight_number={7}` to and get any of the SpaceX Launches or to be able to pass a prop like `next={true}`.
 
 ```jsx
 <Launch flight={74} />
@@ -1726,6 +1729,8 @@ npm i prop-types
 ```
 
 Create a new directory inside `paritial-components` called `space-x` and inside of it we will create a `Launch.js` file:
+
+In `Launch.js`: add the following code:
 
 ```jsx
 import React, { useState, useEffect} from 'react'
@@ -1759,13 +1764,13 @@ const Launch = () => {
 export default Launch
 ```
 
-Let's add this component to the `Home.js` page by first adding an import:
+In `Home.js`: import `Launch.js`:
 
 ```js
 import Launch from '../partial-components/space-x/Launch'
 ```
 
-And then adding the component to the JSX:
+And we can use it in our JSX now in place of the comment `{/* Launch Component */}`:
 
 ```js
   return (
@@ -1778,20 +1783,31 @@ And then adding the component to the JSX:
 
 We have the basics working and we are fetching the next launch, but as we said above, we want to also have the ability to pass a `flight` prop with a specific flight and have it show.
 
-First let's set some types for our two props that we want to use, import the following into `Launch.js`:
+First let's set some types for our two props that we want to use.
+
+In `Launch.js`: import `PropTypes`:
 
 ```js
 import PropTypes from 'prop-types'
 ```
 
-Add `props` to the component by updating to the following and use and talk about destructuring:
+Add `props` to the component using destructuring.
+
+In `Launch.js`: replace the following code:
 
 ```js
-const Launch = ({next, flight}) => {
-  const getNext = next || (!next && !flight)
+const Launch = () => {
 ```
 
-And propTypes to the end of the file:
+with:
+
+```js
+const Launch = ({next = true, flight}) => {
+```
+
+This shows you how you can default a prop to a certain value if it is not passed in by the component using `<Launch />`, and is just a contrived example to show you how it can be done. In reality I would opt for not having a `next` prop and simply having `flight` prop and if not supplied we would just fetch the next launch. But I digress, and challenge you to make the code in this file better.
+
+As well, we need to add our propTypes at the end of the file:
 
 ```js
 export default Launch
@@ -1802,18 +1818,27 @@ Launch.propTypes = {
 }
 ```
 
-Now we can add either prop that we discussed to and pass data via the `Home.js` container component.
+Now we can pass data from the `Home.js` into our `<Launch />` Component as props.
 
 We are going to add an alternate fetch function called `getSpaceXLaunch` which will receive the `flight` prop:
 
+In `Launch.js`: add the following code right after the existing `getSpaceXLaunchNext` function:
+
 ```js
+// Get Next Launch
+const getSpaceXLaunchNext = () => {
+  return fetch('https://api.spacexdata.com/v3/launches/next')
+    .then((res) => res.json())
+}
+
+// Get Launch by Flight
 const getSpaceXLaunch = (flight) => {
   return fetch(`https://api.spacexdata.com/v3/launches/${flight}`)
     .then((res) => res.json())
 }
 ```
 
-And we need to update our `useEffect()` hook to:
+And we need to update our `useEffect()` hook:
 
 ```js
   useEffect(() => {
@@ -1838,24 +1863,37 @@ Although we don't have to change our component on the `Home.js` page, let's be v
   )
 ```
 
-We will go over what's going on here during the workshop, this concludes the section on adding a Launch Component with SpaceX API data.
+and remember that we could also use this component somewhere else in our site if we eanted to by passing in a flight number:
 
-## Implement SpaceX Events as Master and Detail Page
+```js
+  return (
+    <div className='view-home'>
+      <h3>Next Launch</h3>
+      <Launch flight={76} />
+    </div>
+  )
+```
 
-One of the things everyone needs to be able to do in a web application is have a predictable URL scheme to access your various pages and their details. In the traditional web application we would post back to the server and or reload the browser to go from a list of something to a more detailed version of it. But we have more capabilities in a React application, so lets split up the page with a list on the left and detail on the right that once a selection is made populates the details section. Instantaneously and preferable without making more than one request to the API, we get all of the events. The same data used when getting the event titles, can be used for our details page.
+This concludes the section on adding a Launch component with the Space-X API.
+
+## Implement SpaceX Events as Master / Detail Page
+
+One of the things everyone needs to be able to do in a web application is have a predictable URL scheme to access your various pages and their details. In the traditional web application we would post back to the server and/or reload the browser to go from a list of something to a more detailed version of it. But we have more capabilities in a React single page application.
+
+We'll split up the `Events.js` page to have a list on the left (`<EventList />`) and detail on the right (`<EventDetails />`). Once a selection is made from the `<EventList />` component, our `Events.js` component will descern the event that was selected and populate the `<EventDetails />` component. The same data used when getting the event list from the API, can be used for our details page ensuring that we only have to make one request for all events in our application. In a real prodcution app it won't be this simple, but this is a great example to help you get started working with fetching data from and API.
 
 When the Events page loads the following things should happen:
 
-- Request data from the SpaceX History endpoint
-- Populate the left side of the page with a list using that data
+- Request data from the Space-X History endpoint
+- Populate the `<EventList />` component with that data
 - The component on the right is aware that the URL lacks an `event_id`
-- The right-hand component displays a message: "select an event!"
-- The Event page itself is like a container for the left and right side components
-- If we have an `event_id` as part of the URL: `/event/6`
-- We need to match that to an event by id
-- Then pass it to the right-hand component (dumb component)
-- Props change when the user clicks an event and an update the right-hand component happens
-- If the URL is loaded cold everything should still work
+- The `<EventDetails />` component displays a message: "select an event!"
+- The `Events.js` component  serves as a container for the `<EventList />` and `<EventDetails />` components
+- The `Events.js` component  supplies data through props to the `<EventList />` and `<EventDetails />` components
+- If we have an `event_id` as part of the URL: `/event/6`, we need to match that to an event and single the data out.
+- This specific event data can then be passed to the `<EventDetails />` component
+- Props change when the user clicks an event and an update to the `<EventDetails />` component happens
+- If the URL is loaded cold everything should still work (happens for FREE with React Router)
 
 ### Add the Files For Events
 
@@ -1877,31 +1915,37 @@ Install `simple-flexbox`:
 npm i simple-flexbox
 ```
 
-Let's add this to the `Events` page as well as import our components we will need.
+In `Events.js`: import `simple-flexbox` components and `EventList` and `EventDetails` components:
 
 ```js
+import React, { useEffect } from 'react'
 import { Column, Row } from 'simple-flexbox'
 
 import EventList from '../partial-components/space-x/EventList'
 import EventDetails from '../partial-components/space-x/EventDetails'
 ```
 
-We can talk through the following code that will replace all of the JSX and split the page 50/50. :
+We can add the following code that will replace all of the JSX and split the page 50/50. :
 
 ```jsx
-    <Row horizontal='spaced'>
-      <Column flexGrow={1} style={{width:'45%', padding: 5}}>
-        <EventList eventData={[{title: 'Item One', url: '#'}, {title: 'Item Two', url: '#'}]} />
-      </Column>
-      <Column flexGrow={1} style={{width:'55%', padding: 5}}>
-        <EventDetails eventData={{title: 'Awesome Launch'}} />
-      </Column>
-    </Row>
+  return (
+    <div className='view-events'>
+      <h3>Historical Events</h3>
+      <Row horizontal='spaced'>
+        <Column flexGrow={1} style={{ width: '45%', padding: 5 }}>
+          <EventList eventData={[{ title: 'Item One', url: '#' }, { title: 'Item Two', url: '#' }]} />
+        </Column>
+        <Column flexGrow={1} style={{ width: '55%', padding: 5 }}>
+          <EventDetails eventData={{ title: 'Awesome Launch' }} />
+        </Column>
+      </Row>
+    </div>
+  )
 ```
 
 ### Adding the EventList and EventDetails Components
 
-First we will add code to get each page displaying something:
+First we will add code to get our newly added components displaying some dummy data:
 
 #### `EventList.js`
 
@@ -2004,7 +2048,7 @@ ul.event-links {
 }
 ```
 
-Let's run our project and make sure everything is working:
+Let's run our project and make sure everything is working, the links will throw an error, but we will be replacing the dummy data mementarily:
 
 ```bash
 npm start
@@ -2016,7 +2060,7 @@ We now have enough to get started with fetching the data and each component is a
 
 We are going to be fetching the data on the Events page and giving each of our components some data to work with. Let's make the calls and fetch the data on the `Events.js` page:
 
-Replace:
+In `Events.js`: replace the following code:
 
 ```js
 const Events = () => {
@@ -2099,7 +2143,7 @@ Now that we are fetching data and doing the basic mapping and filtering passing 
 
 Let's take all of the `events`, `isLoading`, `error` and the `useEffect()` that fetches our data and create our own hook and in turn extracting this logic out to the `events-data.js` file that we created:
 
-Let's first add a function to the `events-data.js` page:
+In `events-data.js`: add the following code:
 
 ```js
 import { useEffect, useState } from 'react'
@@ -2112,7 +2156,7 @@ export function useEventData() {
 }
 ```
 
-Next, extract the following code from `Events.js`:
+In `Events.js`: extract the follwoing code and move i tto our `events-data.js`:
 
 ```js
   const [events, setEvents] = useState([])
@@ -2137,23 +2181,23 @@ Next, extract the following code from `Events.js`:
   },[])
 ```
 
-We can now go back to the `Events.js` page and import the new hook we just made:
-
-```js
-import { useEventData } from '../partial-components/space-x/events-data'
-```
-
-And just above the `useEffect()` that still remains on the `Events` page, add the following:
+Replace the code we removed with:
 
 ```js
 const { events, isLoading, error } = useEventData()
+```
+
+and import the hook:
+
+```js
+import { useEventData } from '../partial-components/space-x/events-data'
 ```
 
 Let's briefly talk about what we did here. We made the page more readable and extracted all of that logic that dealt with obtaining and exposing the data through React state into one hook that we simply use in our `Events.js` page now.
 
 ### Adding More Information to the EventDetails Page
 
-Let's just update the entire return statement on the `EventDetails,s` page with the following:
+In `EventDetails.js`: update the entire return statement:
 
 ```jsx
   return (event

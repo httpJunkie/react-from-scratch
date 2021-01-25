@@ -12,7 +12,6 @@ const getSpaceXLaunch = (flight) => {
 }
 
 const Launch = ({next, flight}) => {
-  const getNext = next || (!next && !flight)
   const [launch, setLaunch] = useState(null)
   
   useEffect(() => {
