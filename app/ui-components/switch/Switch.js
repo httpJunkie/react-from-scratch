@@ -1,5 +1,5 @@
 import React from 'react'
-import './Switch.scss'
+import './switch-variables.scss'
 
 const Switch = ({ onChange }) => {
   return (

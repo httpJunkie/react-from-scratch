@@ -853,10 +853,10 @@ const Menu = () => {
   return (
     <ul style={{userSelect: 'none'}}>
       <li className='link'>
-        <NavLink className='text_link' tabIndex='2' exact activeClassName='active' to='/'>Home</NavLink>
+        <NavLink className='text_link' tabIndex='2' activeclassname='active' to='/'>Home</NavLink>
       </li>
       <li className='link'>
-        <NavLink className='text_link' tabIndex='3' activeClassName='active' to='/events'>Events</NavLink>
+        <NavLink className='text_link' tabIndex='3' activeclassname='active' to='/events'>Events</NavLink>
       </li>
       <li className='link'>
         <a className='text_link' tabIndex='4' href='https://github.com/httpJunkie/react-from-scratch'>

@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
+import { useParams } from 'react-router-dom'
 import { Column, Row } from 'simple-flexbox'
 
 import EventList from '../partial-components/space-x/EventList'
@@ -6,8 +7,8 @@ import EventDetails from '../partial-components/space-x/EventDetails'
 
 import { useEventData } from '../partial-components/space-x/events-data'
 
-const Events = ({match}) => {
-  const event_id = match.params.event_id
+const Events = () => {
+  let { event_id } = useParams();
 
   const { events, isLoading, error } = useEventData()
 
