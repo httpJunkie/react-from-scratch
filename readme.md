@@ -157,7 +157,7 @@ import React from 'react'
 import 'normalize.css'
 import './App.scss'
 
-import reactLogo from './assets/images/react-transparent.png';
+import reactLogo from './assets/images/react-transparent.png'
 
 const App = () => {
   return (
@@ -291,11 +291,11 @@ With these files in place, run the project for the first time.
 npm start
 ```
 
-And visit: http://localhost:8080
+And visit: http://localhost:9000
 
 ### Init, Stage and Commit Our Files
 
-You should get a page running on `http://localhost:8080` with a dark background and “Hello React” heading with no errors. This indicates that our configuration and styles are working and React is rendering an application for us!
+You should get a page running on `http://localhost:9000` with a dark background and “Hello React” heading with no errors. This indicates that our configuration and styles are working and React is rendering an application for us!
 
 Let's stop and save changes.
 
@@ -356,7 +356,7 @@ Create an ESLint configuration file named `.eslintrc` in the root directory of y
   "plugins": [
     "react"
   ],
-  "parser": "babel-eslint",
+  "parser": "@babel/eslint-parser",
   "parserOptions": {
     "ecmaVersion": 6,
     "sourceType": "module",
@@ -405,7 +405,7 @@ Right away we get some errors:
 This is great, it means our linter is working. But as a team, let's assume that we do not want to follow the double quote rule and we only want to follow the semi-colon rule. Let's make the following changes to the `.eslintrc` file:
 
 ```json
-    "semi": ["off", "always"],
+    "semi": ["error", "never"],
     "quotes": ["error", "single", { "allowTemplateLiterals": true }]
 ```
 
@@ -437,7 +437,7 @@ then, we will add the rule to the rules section the `.eslintrc` file:
 ```json
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
-    "semi": ["off", "always"],
+    "semi": ["error", "never"],
     "quotes": ["error", "single", { "allowTemplateLiterals": true }]
 ```
 

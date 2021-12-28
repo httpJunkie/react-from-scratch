@@ -8,7 +8,7 @@ import EventDetails from '../partial-components/space-x/EventDetails'
 import { useEventData } from '../partial-components/space-x/events-data'
 
 const Events = () => {
-  let { event_id } = useParams();
+  let { event_id } = useParams()
 
   const { events, isLoading, error } = useEventData()
 
